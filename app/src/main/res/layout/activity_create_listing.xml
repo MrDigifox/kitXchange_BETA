@@ -1,0 +1,41 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@drawable/dsc_8450"
+            android:scaleType="centerInside"
+            android:background="#CCCCCC"
+            android:rotation="90" />
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:layout_marginTop="100dp"/>
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price (XMR)"
+            android:inputType="numberDecimal"/>
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:minLines="3" />
+        <Button
+            android:id="@+id/btnSubmitListing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify &amp; Submit"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>
