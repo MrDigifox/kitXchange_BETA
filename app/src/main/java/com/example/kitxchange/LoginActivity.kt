@@ -1,16 +1,28 @@
 package com.example.kitxchange
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Draw edge-to-edge (optional, keep if you like)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setContentView(R.layout.activity_login)
 
-        setContentView(R.layout.activity_login)   // ← NO “.xml” extension
+        val email = findViewById<EditText>(R.id.etEmail)
+        val password = findViewById<EditText>(R.id.etPassword)
+        val btnLogin = findViewById<Button>(R.id.btnLogin)
+
+        btnLogin.setOnClickListener {
+            if (email.text.isNotBlank() && password.text.isNotBlank()) {
+                startActivity(Intent(this, MenuActivity::class.java))
+            } else {
+                Toast.makeText(this, "Enter email & password", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
