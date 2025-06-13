@@ -1,18 +1,24 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!--Israel OrtizRodriguez-->
+    <!--User can add what they want to sell, title, and add description with price-->
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="24dp">
+
+        <!--Personal Item used for testing-->
+
         <ImageView
+            android:id="@+id/imgPhotoPlaceholder"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:src="@drawable/dsc_8450"
-            android:scaleType="centerInside"
-            android:background="#CCCCCC"
-            android:rotation="90" />
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_camera"
+            android:background="#CCCCCC" />
         <EditText
             android:id="@+id/etTitle"
             android:layout_width="match_parent"

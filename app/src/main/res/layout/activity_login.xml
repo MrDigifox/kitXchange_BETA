@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:padding="24dp">
 
+<!--after launch, login screen-->
+
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="160dp"

@@ -1,35 +1,51 @@
 package com.example.kitxchange
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class BrowseActivity : AppCompatActivity() {
 
-    private lateinit var adapter: ArrayAdapter<String>
+    private val db by lazy { AppDatabase.get(this) }
+    private lateinit var listView: ListView
+    private lateinit var adapter: ListingAdapter
+    private var currentRows: List<Listing> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_browse)
 
-        val listView = findViewById<ListView>(R.id.lvListings)
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, mutableListOf())
+        listView = findViewById(R.id.lvListings)
+        adapter = ListingAdapter(this, emptyList())
         listView.adapter = adapter
 
-        findViewById<View>(R.id.fabAddListing).setOnClickListener {
-            startActivity(Intent(this, CreateListingActivity::class.java))
+        listView.setOnItemClickListener { _, _, pos, _ ->
+            currentRows.getOrNull(pos)?.let { listing ->
+                AlertDialog.Builder(this)
+                    .setTitle(listing.title)
+                    .setMessage("""
+                        Price: ${listing.priceXmr} XMR
+                        
+                        ${listing.description.ifBlank { "(no description)" }}
+                    """.trimIndent())
+                    .setPositiveButton("OK", null)
+                    .show()
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.clear()
-        adapter.addAll(
-            ListingRepository.listings.map { "${it.title} – ${it.priceXmr} XMR" }
-        )
-        adapter.notifyDataSetChanged()
+        lifecycleScope.launch {
+            currentRows = db.listingDao().getAll()
+            if (currentRows.isEmpty()) {
+                adapter.update(listOf(Listing(title = "No listings yet.", priceXmr = 0.0, description = "")))
+            } else {
+                adapter.update(currentRows)
+            }
+        }
     }
 }
