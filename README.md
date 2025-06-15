@@ -1,6 +1,14 @@
 README.md
 KitXchange – Final Submission (Week 5)
 
+## Demo Video (5 min)
+
+## Demo Video (5-minute overview)
+
+[![Watch the demo on YouTube](https://img.shields.io/badge/Watch-video-red?logo=youtube)](https://youtu.be/6sYKVgyZ7kE)
+
+
+
 I’m Israel Ortiz Rodriguez (ECPI student) and this is my Android app for buying, selling, and trading match-worn soccer kits.  
 Version **0.3-beta** – code **2** (tag **Final**)
 
