@@ -5,8 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "user")
 data class User(
-    @PrimaryKey val id: Int = 0,          //  always one row (id = 0)
+    @PrimaryKey val id: Int = 0,
     val username: String,
-    val avatarUri: String? = null,        //  NEW – phone’s content-URI of the chosen photo
-    val xmrAddress: String = ""           //  NEW – wallet address the user types
+    val avatarUri: String? = null,
+    val xmrAddress: String = "",
+    val favTeam: String = "",
+    val showLocation: Boolean = false
 )

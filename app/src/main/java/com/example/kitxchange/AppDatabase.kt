@@ -6,14 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [Listing::class, User::class],
-    version = 1,
+    entities = [User::class, Listing::class],
+    version = 3,                             //2 to 3
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-
-    abstract fun listingDao(): ListingDao
     abstract fun userDao(): UserDao
+    abstract fun listingDao(): ListingDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
@@ -24,7 +23,10 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "kitxchange.db"
-                ).build().also { INSTANCE = it }
+                )
+                    .fallbackToDestructiveMigration()  //if schema mismatches
+                    .build()
+                    .also { INSTANCE = it }
             }
     }
 }

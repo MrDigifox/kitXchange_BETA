@@ -10,11 +10,11 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
-        <!-- Avatar -->
         <ImageView
             android:id="@+id/imgAvatar"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_person" />
 
         <Button
@@ -24,21 +24,23 @@
             android:text="Change Avatar"
             android:layout_marginTop="8dp" />
 
-        <!-- Username & team -->
         <TextView
             android:id="@+id/tvUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:text="Username"
             android:textStyle="bold"
+            android:textSize="18sp"
             android:layout_marginTop="16dp" />
 
-        <TextView
-            android:id="@+id/tvTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etTeam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Favorite Team"
+            android:inputType="textPersonName"
+            android:layout_marginTop="16dp" />
 
-        <!-- Location toggle -->
         <Switch
             android:id="@+id/swLocation"
             android:layout_width="wrap_content"
@@ -46,14 +48,21 @@
             android:text="Show my location"
             android:layout_marginTop="16dp" />
 
-        <!-- XMR balance placeholder -->
         <TextView
             android:id="@+id/tvBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Balance: 0.00 XMR"
             android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Profile"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </ScrollView>
+

@@ -16,38 +16,57 @@ class ProfileActivity : AppCompatActivity() {
     private val db by lazy { AppDatabase.get(this) }
     private lateinit var user: User
 
-    // image picker
-    private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let { saveAvatar(it) }
-    }
+    /** image picker */
+    private val pickImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let { saveAvatar(it) }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        // load current user from DB
+        lifecycleScope.launch { loadUser() }
 
-        lifecycleScope.launch { loadUser() }                    //loads user information
+        /** save button for team name */
+        findViewById<Button>(R.id.btnSave).setOnClickListener {
+            val team = findViewById<EditText>(R.id.etTeam).text.toString().trim()
+            lifecycleScope.launch {
+                user = user.copy(favTeam = team)
+                db.userDao().upsert(user)
+                Toast.makeText(this@ProfileActivity, "Saved!", Toast.LENGTH_SHORT).show()
+                loadUser()               // refresh
+            }
+        }
 
+        /** change avatar */
         findViewById<Button>(R.id.btnChangeAvatar).setOnClickListener {
             pickImage.launch("image/*")
         }
 
-        findViewById<Switch>(R.id.swLocation).setOnCheckedChangeListener { _, checked ->
-            lifecycleScope.launch { db.userDao().upsert(user.copy(showLocation = checked)) }
-        }
+        /** location toggle */
+        findViewById<Switch>(R.id.swLocation)
+            .setOnCheckedChangeListener { _, checked ->
+                lifecycleScope.launch {
+                    user = user.copy(showLocation = checked)
+                    db.userDao().upsert(user)
+                }
+            }
     }
 
+    /** ---------------- helpers ---------------- */
 
-    private suspend fun loadUser() {                                /** Fetch user from Room and populate UI */
+    private suspend fun loadUser() {
         user = db.userDao().get() ?: return
         withContext(Dispatchers.Main) {
-            tv(R.id.tvUsername).text = user.username
-            tv(R.id.tvTeam).text     = "Team: ${user.favTeam}"
+            findViewById<TextView>(R.id.tvUsername).text = user.username
+            findViewById<EditText>(R.id.etTeam).setText(user.favTeam ?: "")
             findViewById<Switch>(R.id.swLocation).isChecked = user.showLocation
             user.avatarUri?.let {
                 findViewById<ImageView>(R.id.imgAvatar).setImageURI(Uri.parse(it))
             }
-            tv(R.id.tvBalance).text = "Balance: 12.34 XMR"
+            findViewById<TextView>(R.id.tvBalance).text = "Balance: 12.34 XMR"
         }
     }
 
@@ -62,6 +81,4 @@ class ProfileActivity : AppCompatActivity() {
             findViewById<ImageView>(R.id.imgAvatar).setImageURI(Uri.fromFile(dest))
         }
     }
-
-    private fun tv(id: Int) = findViewById<TextView>(id)
 }
